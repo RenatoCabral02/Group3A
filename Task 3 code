@@ -1,0 +1,284 @@
+Integer check1
+Integer check2
+Integer cirpos(6)
+Integer sqrpos(6)
+Integer HB
+Integer CheckF
+Integer nums
+Integer numc
+
+
+Function task_three
+'random
+
+Motor On
+Power High
+Speed 30
+Accel 30, 30
+SpeedS 500
+AccelS 5000
+Tool 0
+
+Home
+
+
+For check1 = 0 To 2
+	    CheckCirc1()
+	    CheckSqrr1()
+	    
+	Next check1
+	
+For check2 = 3 To 5
+	     CheckCirc2()
+	     CheckSqrr2()
+	    
+    Next check2
+    
+For CheckF = 0 To HB - 1
+	     checkform()
+    Next CheckF
+
+	
+	
+Home
+
+Fend
+Function CheckCirc1
+	
+	Go PlaceCir1 +Z(20) +Y(check * 30)
+	Go PlaceCir1 +Z(check * 30)
+	If Sw(17) = 1 Then
+		cirpos(check1) = 1
+		Print "Part detected"
+	EndIf
+	Off 8
+	Wait 0.5
+	Go PlaceCir1 +Z(20) +Y(check * 30) /3
+	
+Fend
+Function CheckSqrr1
+	
+	Go PlaceSqr1 +Z(20) +Y(check * 30) /3
+	Go PlaceSqr1 +Z(check * 30) /3
+	On 8
+	Wait 0.5
+	If Sw(17) = 1 Then
+		sqrpos(check1) = 1
+		Print "Part detected"
+	EndIf
+	Off 8
+	Wait 0.5
+	Go PlaceSqr1 +Z(20) +Y(check * 30) /3
+	
+Fend
+
+Function CheckCirc2
+	
+	Go PlaceCir2 +Z(20) +Y(check * 30)
+	Go PlaceCir2 +Z(check * 30)
+	On 8
+	Wait 0.5
+	If Sw(17) = 1 Then
+		cirpos(checkcirc) = 1
+		Print "Part detected"
+	EndIf
+	Off 8
+	Wait 0.5
+	Go PlaceCir2 +Z(20) +Y(check * 30) /3
+	
+Fend
+Function CheckSqrr2
+	
+	Go PlaceSqr2 +Z(20) +Y(check * 30) /3
+	Go PlaceSqr2 +Z(check * 30) /3
+	On 8
+	Wait 0.5
+	If Sw(17) = 1 Then
+		sqrpos(check1) = 1
+		Print "Part detected"
+	EndIf
+	Off 8
+	Wait 0.5
+	Go PlaceSqr2 +Z(20) +Y(check * 30) /3
+	
+Fend
+Function checkstack
+
+HB = 12
+    Go Stack +Z(20) +Z(HB * 6) /3
+    On 8
+
+    Do While Sw(17) = 0
+	Go Stack +Z(HB * 6) /3
+	Wait 0.5
+	HB = HB - 1
+Loop
+    Off 8
+    Wait 0.5
+    Go Stack +Z(20) +Z(HB * 6) /3
+    HB = HB + 2
+    Print "Number of Blocks in the stack", HB
+
+Fend
+Function checkform
+	Go Stack +Z(20) +Z(HB * 6) /3
+	Go Stack +Z(HB * 6) /3
+	On 8
+	Wait 0.5
+	Go Stack +Z(20) +Z(HB * 6) /3
+	Go Circheck +Z(20) /3
+	Go Circheck +Z(3) /3
+	Off 8
+	On 8
+	If Sw(17) = 1 Then
+		checkemptysq
+	Else
+	Off 8
+    Go Circheck /3
+    On 8
+		checkemptycir
+	EndIf
+
+	
+	
+Fend
+Function checkemptysq
+	For nums = 0 To 5
+		If sqrpos(nums) = 0 Then
+		
+		If nums > 2 Then
+			PlaceS2
+			
+		Else
+			
+			placeS1
+			
+		EndIf
+				
+		EndIf
+
+Next nums
+	
+	
+Fend
+Function placeS1
+	
+    Go Circheck +Z(20) /3
+	Go FixSqr +Z(15) +Y(5) /3
+	Go FixSqr +Z(5) -X(5) +Y(5) /3
+	Wait 0.5
+	Go FixSqr -X(5) +Y(5) /3
+	Off 8
+	Go FixSqr -Z(20) /3
+	Wait 0.5
+	On 9
+	Wait 1
+	Off 9
+	Wait 1
+	Go FixSqr +Z(3) /3
+	On 8
+	Go FixSqr -Z(20) /3
+	
+	
+	Go PlaceSqr1 -Z(20) -Y(nums * 30) /3
+	Wait 0.5
+	Go PlaceSqr1 -Y(nums * 30) /3
+	Off 8
+	Go PlaceSqr1 -Z(20) -Y(nums * 30) /3
+		
+	
+Fend
+Function PlaceS2
+	
+	Go Circheck -Z(20) /3
+    Go FixSqr -Z(15) -Y(5) /3
+	Go FixSqr -Z(5) -X(5) -Y(5) /3
+	Wait 0.5
+	Go FixSqr -X(5) -Y(5) /3
+	Off 8
+	Go FixSqr -Z(20) /3
+	Wait 0.5
+	On 9
+	Wait 1
+	Off 9
+	Wait 1
+	Go FixSqr +Z(3) /3
+	On 8
+	Go FixSqr -Z(20) /3
+	
+	
+	Go PlaceSqr2 -Z(20) -Y((nums - 3) * 30) /3
+	Wait 0.5
+	Go PlaceSqr2 -Y((nums - 3) * 30) /3
+	Off 8
+	Go PlaceSqr2 -Z(20) -Y((nums - 3) * 30) /3
+	
+	
+Fend
+checkemptycir
+	For numc = 0 To 5
+		If sqrpos(numc) = 0 Then
+		If numc > 2 Then
+			placeC2
+		Else
+			placeC1
+		EndIf
+				
+		EndIf
+
+Next numc
+
+Fend
+Function placeC1
+	
+    Go Circheck -Z(20) /3
+	Go FixCir -Z(15) -Y(5) /3
+	Go FixCir -Z(5) -X(5) -Y(5) /3
+	Wait 0.5
+	Go FixCir -X(5) -Y(5) /3
+	Off 8
+	Go FixCir -Z(20) /3
+	Wait 0.5
+	On 9
+	Wait 1
+	Off 9
+	Wait 1
+	Go FixCir +Z(3) /3
+	On 8
+	Go FixCir -Z(20) /3
+	
+	Go PlaceCir1 -Z(20) -Y(numc * 30) /3
+	Wait 0.5
+	Go PlaceCir1 -Y(numc * 30) /3
+	Off 8
+	Go PlaceCir1 -Z(20) -Y(numc * 30) /3
+		
+	
+Fend
+Function placeC2
+	
+    Go Circheck -Z(20) /3
+	Go FixCir -Z(15) -Y(5) /3
+	Go FixCir -Z(5) -X(5) -Y(5) /3
+	Wait 0.5
+	Go FixCir -X(5) -Y(5) /3
+	Off 8
+	Go FixCir -Z(20) /3
+	Wait 0.5
+	On 9
+	Wait 1
+	Off 9
+	Wait 1
+	Go FixCir +Z(3) /3
+	On 8
+	Go FixCir -Z(20) /3
+	
+	
+	Go PlaceCir2 -Z(20) -Y((numc - 3) * 30) /3
+	Wait 0.5
+	Go PlaceCir2 -Y((numc - 3) * 30) /3
+	Off 8
+	Go PlaceCir2 -Z(20) -Y((numc - 3) * 30) /3
+		
+	
+Fend
