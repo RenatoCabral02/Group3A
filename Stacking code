@@ -1,0 +1,89 @@
+Integer p
+Integer Circ
+Integer Sqrr
+
+Function task_two
+'stacking
+
+Motor On
+Power High
+Speed 30
+Accel 30, 30
+SpeedS 500
+AccelS 5000
+Tool 0
+p = 0
+Sqrr = 0
+Home
+
+    For Circ = 0 To 2
+	    placeC1()
+		Stackf()
+		p = p + 6
+		placeS1()
+		Stackf()
+		Sqrr = Sqrr + 1
+		p = p + 6
+	Next Circ
+        Sqrr = 0
+    For Circ = 0 To 2
+	    placeC2()
+		Stackf()
+		p = p + 6
+		PlaceS2()
+		Stackf()
+		Sqrr = Sqrr + 1
+		p = p + 6
+	Next Circ
+
+Home
+	
+Fend
+Function PlaceC1
+	
+  	Go PlaceCir1 +Z(20) +Y(Circ * 30) /1
+	Wait 0.5
+	Go PlaceCir1 +Y(Circ * 30) /1
+	On 8
+	Wait 0.5
+	Go PlaceCir1 +Z(20) +Y(Circ * 30) /1
+	
+Fend
+Function Stackf
+	
+	Go Stack +Z(p + 40) +X(15) /1
+	Go Stack +Z(p + 40) /1
+	Go Stack +Z(p + 3) /1
+	Go Stack +Z(p) /1
+	Off 8
+	Wait 0.5
+	Move Stack +Z(p + 30) /1
+	Move Stack +Z(p + 30) +X(15) /1
+	
+Fend
+Function PlaceC2
+	
+  	Go PlaceCir2 +Z(20) +Y(Circ * 30) /1
+	Wait 0.5
+	Go PlaceCir2 +Y(Circ * 30) /1
+	On 8
+	Wait 0.5
+	Go PlaceCir2 +Z(20) +Y(Circ * 30) /1
+	
+Fend
+Function PlaceS1
+	Go PlaceSqr1 +Z(20) +Y(Sqrr * 30) /1
+	Wait 0.5
+	Go PlaceSqr1 +Y(Sqrr * 30) /1
+    On 8
+	Wait 0.5
+	Go PlaceSqr1 +Z(20) +Y(Sqrr * 30) /1
+Fend
+Function PlaceS2
+	Go PlaceSqr2 +Z(20) +Y(Sqrr * 30) /1
+	Wait 0.5
+	Go PlaceSqr2 +Y(Sqrr * 30) /1
+    On 8
+	Wait 0.5
+	Go PlaceSqr2 +Z(20) +Y(Sqrr * 30) /1
+Fend
